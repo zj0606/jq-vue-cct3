@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, toRefs, onMounted, nextTick } from 'vue'
-import type { Ref } from 'vue'
+import { ref, reactive, toRefs, onMounted} from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import SvgIcon from '@/components/icons/index.vue'
 interface LoginForm {
   username: string
   password: string
@@ -51,24 +49,6 @@ const loginRules = reactive<FormRules<RuleForm>>({
 
 const passwordType = ref<string>('password')
 
-const capsTooltip:Ref<boolean> = ref(false)
-const checkCapslock = (e:event) => {
-  const { key } = e
-  capsTooltip.value = key && key.length == 1 && (key >= 'A' && key <= 'Z')
-}
-const password = ref<HTMLdivElement>()
-const showPwd = async () => {
-  passwordType.value = passwordType.value === 'password' ? '' : 'password'
-  await nextTick()
-  password.value.focus()
-}
-// 运行时声明
-const emits = defineEmits(['handleLogin'])
-
-const handleLogin = () => {
-  emits('handleLogin')
-}
-
 </script>
 <template>
   <div>
@@ -79,13 +59,13 @@ const handleLogin = () => {
       :rules="loginRules"
     >
       <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-name="IconUser" viewBox="0 0 120 120" width="100" height="100" />
-        </span>
+        <!-- <span class="svg-container">
+          <svg-icon icon-class="user" />
+        </span> -->
         <el-input
           ref="username"
           v-model="loginForm.username"
-          size="small"
+          size="mini"
           placeholder="请输入您的账号"
           name="username"
           type="text"
@@ -93,16 +73,16 @@ const handleLogin = () => {
           autocomplete="on"
         />
       </el-form-item>
-      <el-tooltip :visible="capsTooltip" content="Caps lock is On" placement="right">
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-name="IconPassword" viewBox="0 0 120 120" width="100" height="100" />
-          </span>
+          <!-- <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span> -->
           <el-input
             :key="passwordType"
             ref="password"
             v-model="loginForm.password"
-            size="small"
+            size="mini"
             :type="passwordType"
             placeholder="请输入您的密码"
             name="password"
@@ -113,8 +93,7 @@ const handleLogin = () => {
             @keyup.enter="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon v-show="passwordType === 'password'" icon-name="IconEye" viewBox="0 0 120 120" width="100" height="100" />
-            <svg-icon v-show="passwordType !== 'password'" icon-name="IconEyeOpen" viewBox="0 0 950 950" width="100" height="100" />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
       </el-tooltip>
@@ -123,63 +102,5 @@ const handleLogin = () => {
   </div>
 </template>
 
-<style scoped>
-.verification :deep() .el-icon{
-    position: absolute;
-    font-size: 18px;
-    top: 50%;
-    left: 100%;
-    display: block;
-    transform: translate(0,-50%);
-}
-.verification :deep() .el-icon-check{
-    color: #28e228;
-}
-.verification :deep() .el-icon-close{
-    color: #f00;
-}
-</style>
-<style lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
-$text_color:#606266;
-
-.login-container {
-
-  .svg-container {
-    padding: 0px 6px 4px 8px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-    font-size: 14px;
-  }
-
-  .show-pwd {
-    position: absolute;
-    right: 7px;
-    top: 16px;
-    font-size: 16px;
-    color: #606266;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  .el-button.el-button--primary.el-button--medium{
-    padding:15px 20px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
-    }
-  }
-}
+<style scoped lang="less">
 </style>

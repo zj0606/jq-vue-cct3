@@ -1,18 +1,33 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ref, reactive, toRefs, onMounted} from 'vue'
+import { ref, reactive, toRefs, onMounted, markRaw} from 'vue'
 import { useRouter } from 'vue-router'
+import { login } from '@/api/user'
+import AccountLogin from '@/views/login/components/Account.vue'
+import PhoneLogin from '@/views/login/components/Phone.vue'
 import img from '@/assets/home/bg_yearOfRabbit.jpg';
 // or
 const textImg = new URL('@/assets/home/txt_yearOfRabbit.jpg', import.meta.url).href
+
+
+
 
 const componentTag:Ref<string> = ref('account-login');
 const handleSwitch = (comp) => {
   componentTag.value = comp
 }
+interface Comp {
+  'account-login': any
+  [prop: string]:any 
+}
+const compTabs = reactive<Comp>({
+  'account-login': markRaw(AccountLogin),
+  'phone-login': markRaw(PhoneLogin)
+})
 
 const handleLogin = () => {
-
+  login({}).then(res => console.log(res)
+  )
 }
 
 const router = useRouter();
@@ -45,18 +60,18 @@ const loading:Ref<boolean> = ref(false);
       </div>
 
       <!-- 登录表单 -->
-      <transition name="fade-transform" mode="out-in">
-        <components
-          :is="componentTag"
+      <Transition name="fade-transform" mode="out-in">
+        <component
+          :is="compTabs[componentTag]"
           ref="loginForm"
           @handleLogin="handleLogin"
         />
-      </transition>
+      </Transition>
 
       <el-button
         :loading="loading"
         type="primary"
-        style="width: 100%; margin-bottom: 30px"
+        class="btn"
         @click.prevent="handleLogin"
       >
         登录
@@ -80,11 +95,15 @@ $cursor: #5c8599;
 
 /* reset element-ui css */
 .login-container {
+   
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
-
+    width: 290px;
+    .el-input__wrapper {
+      width: 100%;
+      padding: 0;
+    }
     input {
       background: transparent;
       border: 0px;
@@ -94,7 +113,6 @@ $cursor: #5c8599;
       // color: #606266;
       color: #5c8599;
       height: 47px;
-
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
@@ -209,6 +227,12 @@ $text_color: #606266;
     top: 50%;
     left: calc(100% - 150px);
     transform: translate(-100%, -50%);
+    .btn {
+      width: 100%;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      font-size: 14px;
+    }
   }
 
   .tips {

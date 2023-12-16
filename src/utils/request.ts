@@ -31,8 +31,24 @@ const {
   VITE_APP_BASE_API,
   VITE_APP_ENV
 } = import.meta.env
-
-const codeMessage = {
+interface CodeMessage {
+  200: string
+  201: string
+  202: string
+  204: string
+  400: string
+  401: string
+  403: string
+  404: string
+  406: string
+  410: string
+  422: string
+  500: string
+  502: string
+  503: string
+  504: string
+}
+const codeMessage:CodeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -137,7 +153,7 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  /**
+  (  /**
    * If you want to get http information such as headers or status
    * Please return  response => response
    */
@@ -147,7 +163,7 @@ service.interceptors.response.use(
    * Here is just an example
    * You can also judge the status by HTTP Status Code
    */
-  response => {
+  response: { data: any; config: { type: string }; headers: { [x: string]: { match: (arg0: RegExp) => string[] } } }) => {
     /**
      * Clear loading
      *
@@ -190,7 +206,7 @@ service.interceptors.response.use(
       }
     }
   },
-  error => {
+  (  error: { code?: any; response?: any } | undefined) => {
     // console.log(JSON.stringify(error)) // for debug
 
     if (error === undefined || error.code === 'ECONNABORTED') {

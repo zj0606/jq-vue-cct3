@@ -5,6 +5,5 @@ export const useUserStore  = defineStore('user', () => {
   const state = reactive({
     userInfo: null
   })
-  const 
   return { state,}
 })
