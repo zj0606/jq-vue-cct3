@@ -3,6 +3,7 @@ import { ref, reactive, toRefs, onMounted, nextTick } from 'vue'
 import type { Ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import SvgIcon from '@/components/icons/index.vue'
+import { createImgVerifyCode, checkImgVerifyCode } from '@/api/user'
 interface LoginForm {
   username: string
   password: string
@@ -63,12 +64,33 @@ const showPwd = async () => {
   password.value.focus()
 }
 // 运行时声明
-const emits = defineEmits(['handleLogin'])
+// const emits = defineEmits(['handleLogin'])
 
+// 类型式声明
+const emits = defineEmits<{
+  (e: 'handleLogin'): void
+}>()
+
+
+// 3.3+：另一种更简洁的语法
+// const emit = defineEmits<{
+//   change: [id: number] // 具名元组语法
+//   update: [value: string]
+// }>()
 const handleLogin = () => {
   emits('handleLogin')
 }
 
+const verificationImage = ref<string>('')
+const refreshVerification = async () => {
+  const verify = await createImgVerifyCode()
+  verificationImage.value = `data:image/png;base64,${verify.base64}`
+  loginForm.verifyCodeKey = verify.verifyCodeKey
+  loginForm.verification = ''
+}
+onMounted(() => {
+  refreshVerification()
+})
 </script>
 <template>
   <div>
@@ -118,8 +140,26 @@ const handleLogin = () => {
           </span>
         </el-form-item>
       </el-tooltip>
+      <div class="verification">
+        <el-form-item prop="verification">
+          <el-input
+            ref="verification"
+            v-model="loginForm.verification"
+            size="mini"
+            placeholder="请输入验证码"
+            name="verification"
+            type="text"
+            tabindex="2"
+            autocomplete="off"
+            @keyup.enter="handleLogin"
+          />
+        </el-form-item>
+        <div class="verification-image">
+          <img :src="verificationImage" @click="refreshVerification">
+        </div>
+        <!-- <el-icon v-show="loginForm.verification && checkIcon" class="el-icon" :name="checkStatus"/> -->
+      </div>
     </el-form>
-
   </div>
 </template>
 
