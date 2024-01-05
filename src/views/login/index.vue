@@ -13,7 +13,7 @@ const textImg = new URL('@/assets/home/txt_yearOfRabbit.jpg', import.meta.url).h
 
 
 const componentTag:Ref<string> = ref('account-login');
-const handleSwitch = (comp) => {
+const handleSwitch = (comp:string) => {
   componentTag.value = comp
 }
 interface Comp {
@@ -24,10 +24,21 @@ const compTabs = reactive<Comp>({
   'account-login': markRaw(AccountLogin),
   'phone-login': markRaw(PhoneLogin)
 })
+import { useUserStore } from '@/stores/user'
+const store = useUserStore()
 
-const handleLogin = () => {
-  login({}).then(res => console.log(res)
-  )
+const loginForm = ref()
+const handleLogin = async () => {
+  const { validate, loginFormData } = loginForm.value
+  
+  const state = await validate()
+  if (state) {
+    store.login(loginFormData, componentTag.value)
+    // login(loginFormData).then(res => console.log(res)
+  } else {
+    console.log('error submit!!')
+    return false
+  }
 }
 
 const router = useRouter();

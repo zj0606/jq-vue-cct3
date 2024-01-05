@@ -4,14 +4,15 @@ import type { Ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import SvgIcon from '@/components/icons/index.vue'
 import { createImgVerifyCode, checkImgVerifyCode } from '@/api/user'
-interface LoginForm {
-  username: string
-  password: string
-  tenant: string
-  verification: string
-  verifyCodeKey: string
-}
+import { LoginForm } from '@/interface/user'
 const loginRef = ref<FormInstance>()
+const validate = () => {
+  return new Promise((resolve) => {
+      loginRef.value.validate(valid => {
+        resolve(valid)
+      })
+  })
+}
 const loginForm = reactive<LoginForm>({
   username: '',
   password: '',
@@ -19,6 +20,7 @@ const loginForm = reactive<LoginForm>({
   verification: '',
   verifyCodeKey: ''
 })
+defineExpose({ validate, loginFormData: loginForm })
 const validatePassword = (rule, value, callback) => {
   if (value.length < 6) {
     callback(new Error('请输入6位以上的密码'))
@@ -145,7 +147,7 @@ onMounted(() => {
           <el-input
             ref="verification"
             v-model="loginForm.verification"
-            size="mini"
+            size="small"
             placeholder="请输入验证码"
             name="verification"
             type="text"

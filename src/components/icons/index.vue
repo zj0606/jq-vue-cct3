@@ -23,7 +23,7 @@ const modules = import.meta.glob('./svg/*.vue')
 //     }
     
 // }
-let Comp: Component = null
+let Comp: Component
 const item:Array<string, () => Component> = Object.entries(modules).find(item => item[0].includes(props.iconName))
 if (item) {
   Comp = defineAsyncComponent(item[1])
