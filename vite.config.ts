@@ -56,6 +56,13 @@ export default defineConfig(({ command, mode }) => {
           target: 'http://10.60.146.80:8081'
         }
       }
+    },
+    css: { // 处理bem 架构
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "./src/bem.scss";`
+        }
+      }
     }
   } 
 })

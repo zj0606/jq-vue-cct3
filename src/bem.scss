@@ -1,0 +1,35 @@
+$namespace: 'z'!default;
+$block-separator: '-'!default;
+$elem-separator: '__'!default;
+$mod-separator: '--'!default;
+
+// <div class="zj-block"></div>
+@mixin b($block) {
+  $B: #{$namespace + $block-separator + $block};
+  .#{$B} {
+    @content;
+  }
+}
+// .zj-block__inner
+@mixin e($element) {
+  $selector: &;
+  @at-root {
+    #{$selector + $elem-separator + $element} {
+      @content;
+    }
+  }
+}
+
+// .zj-block--primary
+@mixin m($mod){
+  $selector: &;
+  @at-root {
+    #{$selector + $mod-separator + $mod} {
+      @content;
+    }
+  }
+}
+@mixin bfc{
+  height: 100vh;
+  overflow: hidden;
+}
