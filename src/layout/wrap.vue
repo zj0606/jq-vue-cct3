@@ -10,7 +10,6 @@ const handleClick = (data: string) => {
 }
 const expose = ref<InstanceType<typeof Header>>()
 
-console.log(expose.name);
 
 </script>
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, toRefs, onMounted, shallowRef, markRaw} from 'vue'
+import { ref, reactive, toRefs, onMounted, shallowRef, markRaw, provide, readonly} from 'vue'
 import A from './comps/A.vue'
 import B from './comps/B.vue'
 import C from './comps/C.vue'
@@ -21,19 +21,24 @@ const currentComp = shallowRef(A)
 const handleClick = (item: any) => {
   currentComp.value = item.comp
 }
+const colorRef = ref<string>('red')
+provide('colorKey', readonly(colorRef))
 </script>
 <template>
   <div class="z-content">
+    <input type="radio" v-model="colorRef" value="red" name="radio" />红
+    <input type="radio" v-model="colorRef" value="yellow" name="radio" />黄
+    <input type="radio" v-model="colorRef" value="pink" name="radio" />粉
     <button v-for="(item, index) in comps" @click="handleClick(item)" :key="index">{{ item.name }}<br></button>
     <!-- <component :is="currentComp" /> -->
     <Suspense>
-          <!-- 主要内容 -->
-          <component :is="currentComp" />
-          <!-- 加载中状态 -->
-          <template #fallback>
-            正在加载...
-          </template>
-        </Suspense>
+      <!-- 主要内容 -->
+      <component :is="currentComp" />
+      <!-- 加载中状态 -->
+      <template #fallback>
+        正在加载...
+      </template>
+    </Suspense>
     <!-- <div class="z-content__inner" v-for="item in 100" :key="item">{{item}}</div> -->
   </div>
 </template>
