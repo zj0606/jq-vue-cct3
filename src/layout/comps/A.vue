@@ -7,14 +7,17 @@ const handleClick = () => {
 }
 const colorRef = inject('colorKey')
 console.log(colorRef);
-
+const isShow = ref<boolean>(true)
+const text = ref<string>('123')
 </script>
 <template>
   <div class="z-box">content A</div>
   <div class="z-content"></div>
   <button @click="handleClick">{{ disabled }}</button>
+
+  <button @click="isShow = !isShow">关闭弹窗:{{ isShow }}:{{ text }}</button>
   <teleport :disabled="disabled" to="body">
-    <Dialog />
+    <Dialog v-model="isShow" v-model:textValue.capitalize="text" />
   </teleport>
 </template>
 
