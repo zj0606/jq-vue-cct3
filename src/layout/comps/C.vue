@@ -3,6 +3,8 @@ import { ref, reactive, toRefs, onMounted, inject} from 'vue'
 import type { Ref } from 'vue'
 import D from './D.vue'
 import E from './E.vue'
+import F from './F.vue'
+import G from './G.vue'
 const colorRef = inject<Ref<string>>('colorKey', ref('yellow'))
 const handleChangeColor = () => {
   colorRef!.value = 'red'
@@ -18,6 +20,9 @@ const changeFlag = (params: boolean) => {
   <div class="z-content"></div>
   <D @on-click="changeFlag" />
   <E :flag="flag"/>
+  <hr/>
+  <F />
+  <G />
 </template>
 
 <style scoped lang="scss">
