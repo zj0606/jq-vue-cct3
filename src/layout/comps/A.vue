@@ -24,7 +24,7 @@ const vMove:Directive = {
     console.log('====> beforeMount');
   },
   mounted(el, bidding:DirectiveBinding<DirBIdding>, vnode, prevNode) {
-    el.style.backgroundColor = bidding.value
+    el.style.backgroundColor = bidding.value.backgroud
     console.log('====> mounted');
   },
   beforeUpdate() {
