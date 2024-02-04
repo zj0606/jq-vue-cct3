@@ -44,6 +44,22 @@ const vMove:Directive = {
 const vFocus:Directive = (el, bidding, vnode, prevNode) => {
   el.focus();
 }
+const vMouseMove:Directive<any, void> = (el:HTMLDivElement, bidding:DirectiveBinding) => {
+  const divEle:HTMLDivElement = el as HTMLDivElement
+  const mouseDown = (e:MouseEvent) => {
+    let x = e.clientX - el.offsetLeft
+    let y = e.clientY - el.offsetTop
+    const mouseMove = (e:MouseEvent) => {
+      divEle.style.left =  e.clientX - x + 'px'
+      divEle.style.top =  e.clientY - y + 'px'
+    }
+    document.addEventListener('mousemove', mouseMove)
+    document.addEventListener('mouseup', () => {
+      document.removeEventListener('mousemove', mouseMove)
+    })
+  }
+  divEle.addEventListener('mousedown', mouseDown)
+}
 </script>
 <template>
   <div class="z-box">content A</div>
@@ -53,7 +69,7 @@ const vFocus:Directive = (el, bidding, vnode, prevNode) => {
   <input type="text" v-model="flag" v-focus>
   <button @click="isShow = !isShow">关闭弹窗:{{ isShow }}:{{ text }}</button>
   <teleport :disabled="disabled" to="body">
-    <Dialog v-move:arr.alias="{backgroud: 'red', flag: flag}" v-model="isShow" v-model:textValue.capitalize="text" />
+    <Dialog v-mouse-move v-move:arr.alias="{backgroud: 'red', flag: flag}" v-model="isShow" v-model:textValue.capitalize="text" />
   </teleport>
 </template>
 
