@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import Menu from '@/layout/menu.vue'
-import Wrap from '@/layout/wrap.vue'
+// import Menu from '@/layout/menu.vue'
+// import Wrap from '@/layout/wrap.vue'
+import Box from '@/layout/lazyLoad/index.vue'
 </script>
 
 <template>
   <div class="z-box">
-    <Menu />
-    <Wrap />
+    <Box />
+    <!-- <Menu />
+    <Wrap /> -->
   </div>
 
 </template>
