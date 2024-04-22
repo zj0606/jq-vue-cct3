@@ -8,6 +8,9 @@ import router from './router'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+
+import userResize from 'v-resize-xjj'
+
 // 全局事件总线
 import mitt from "mitt";
 const bus = mitt()
@@ -16,7 +19,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(ElementPlus, { size: 'small', zIndex: 3000 })
-
+app.use(userResize)
 app.mount('#app')
 app.directive('bg', {
   created() {},
