@@ -4,19 +4,23 @@
 // 自定义指令实现懒加载
 // import Box from '@/layout/lazyLoad/index.vue'
 // 自定义hooks
-import Box from '@/layout/hooks/index.vue'
+// import Box from '@/layout/hooks/index.vue'
+import GlobalPro from '@/layout/globalProperties/index.vue'
+// 自定义全局插件
+// import Loading from '@/layout/loading/index.vue'
 </script>
 
 <template>
   <div class="z-box">
-    <Box :title="22" :width="300" :height="300">
+    <!-- <Box :title="22" :width="300" :height="300">
       <template v-slot:default>
         <span>哈哈</span>
       </template> 
       <template v-slot:name>
         你好
       </template>
-    </Box>
+    </Box> -->
+    <GlobalPro />
     <!-- <Menu />
     <Wrap /> -->
   </div>

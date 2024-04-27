@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, toRefs, onMounted, useAttrs, useSlots} from 'vue'
 import useBase64 from './index.ts'
-import { log } from 'console';
 const attrs = useAttrs()
 const slots = useSlots()
 console.log(attrs, slots);
