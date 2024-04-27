@@ -15,13 +15,15 @@ import loadInstall from './layout/loading'
 // 全局事件总线
 import mitt from "mitt";
 const bus = mitt()
-const app = createApp(App)
+export const app = createApp(App)
 
+import { MyUse } from './layout/myuse'
 app.use(createPinia())
 app.use(router)
 app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 app.use(userResize)
-app.use(loadInstall)
+// app.use(loadInstall)
+MyUse(loadInstall)
 app.mount('#app')
 app.directive('bg', {
   created() {},
