@@ -8,6 +8,7 @@
 import GlobalPro from '@/layout/globalProperties/index.vue'
 // 自定义全局插件
 // import Loading from '@/layout/loading/index.vue'
+import Index from '@/layout/nextTick/index.vue'
 </script>
 
 <template>
@@ -21,6 +22,7 @@ import GlobalPro from '@/layout/globalProperties/index.vue'
       </template>
     </Box> -->
     <GlobalPro />
+    <Index />
     <!-- <Menu />
     <Wrap /> -->
   </div>
