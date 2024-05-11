@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, toRefs, onMounted, nextTick} from 'vue'
 import { useTestStore } from '@/layout/store/index'
-import { storeToRefs } from 'pinia'
+import { storeToRefs, mapActions } from 'pinia'
 const test = useTestStore()
+  console.log('test', test);
+
 const { count, double, getHobby } = storeToRefs(test)
+const { increase } = test
+
 const container = ref<HTMLDivElement>()
 type List = {
   name: string,
@@ -50,7 +54,7 @@ const handleState = () => {
     </div>
    </div>
   <button @click="handleClick">点击下</button>
-  <button @click="test.increase">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
+  <button @click="increase">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="count++">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handlePatch">$patch{{ count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handleState">$state{{ count }}-{{ double }}--{{ getHobby }}</button>
