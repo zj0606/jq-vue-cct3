@@ -1,24 +1,57 @@
 <script setup lang="ts">
 import { ref, reactive, toRefs, onMounted, nextTick} from 'vue'
-const box = ref<HTMLDivElement>()
-const list = []
-const handleClick = async () => {
+import { useTestStore } from '@/layout/store/index'
+const test = useTestStore()
+const container = ref<HTMLDivElement>()
+type List = {
+  name: string,
+  text: string
+}
+const list = reactive<List[]>([])
+const handleClick = () => {
   list.push({
     name: 'xjj',
     text: '你最骚'
   })
-  await nextTick()
+  // await nextTick()
   console.log('---------');
-  box.value!.scrollTop = 99999
+  nextTick(() => {
+    console.log(list)
+    container.value!.scrollTop = 99999
+  })
+}
+const handlePatch = () => {
+  // test.$patch({ // 批量修改 接收对象
+  //   count: 20
+  // })
+  test.$patch((state) => { // $patch 可以接受函数 参数为state可以判断做额外的操作
+    console.log(state);
+    
+  })
+}
+const handleState = () => {
+  test.$state = { //  使用$state 要全量覆盖
+    count: 30,
+    hobby: 'jxx',
+    user: {
+      name: 'xjjj',
+      age: 20
+    }
+  }
 }
 </script>
 <template>
-  <div ref="box" style="height: 100px; overflow-y: auto;">
+  <div ref="container" style="height: 100px; width: 50px; overflow-y: auto;">
+    list: {{ list.length }}
     <div v-for="(item, index) in list" :key="index">
       {{ item.text }}
     </div>
    </div>
   <button @click="handleClick">点击下</button>
+  <button @click="test.increase">increase{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
+  <button @click="test.count++">increase{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
+  <button @click="handlePatch">$patch{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
+  <button @click="handleState">$state{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
 </template>
 
 <style scoped lang="scss">
