@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive, toRefs, onMounted, nextTick} from 'vue'
 import { useTestStore } from '@/layout/store/index'
+import { storeToRefs } from 'pinia'
 const test = useTestStore()
+const { count, double, getHobby } = storeToRefs(test)
 const container = ref<HTMLDivElement>()
 type List = {
   name: string,
@@ -21,13 +23,13 @@ const handleClick = () => {
   })
 }
 const handlePatch = () => {
-  // test.$patch({ // 批量修改 接收对象
-  //   count: 20
-  // })
-  test.$patch((state) => { // $patch 可以接受函数 参数为state可以判断做额外的操作
-    console.log(state);
-    
+  test.$patch({ // 批量修改 接收对象
+    count: 20
   })
+  // test.$patch((state) => { // $patch 可以接受函数 参数为state可以判断做额外的操作
+  //   console.log(state);
+    
+  // })
 }
 const handleState = () => {
   test.$state = { //  使用$state 要全量覆盖
@@ -48,10 +50,10 @@ const handleState = () => {
     </div>
    </div>
   <button @click="handleClick">点击下</button>
-  <button @click="test.increase">increase{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
-  <button @click="test.count++">increase{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
-  <button @click="handlePatch">$patch{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
-  <button @click="handleState">$state{{ test.count }}-{{ test.double }}--{{ test.getHobby }}</button>
+  <button @click="test.increase">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
+  <button @click="count++">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
+  <button @click="handlePatch">$patch{{ count }}-{{ double }}--{{ getHobby }}</button>
+  <button @click="handleState">$state{{ count }}-{{ double }}--{{ getHobby }}</button>
 </template>
 
 <style scoped lang="scss">
