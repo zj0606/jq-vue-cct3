@@ -4,6 +4,17 @@ type User = {
   name: string,
   age: number
 }
+
+const query = ():Promise<User> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        name: 'wahahaha',
+        age: 100
+      })
+    }, 2000)
+  })
+}
 export const useTestStore = defineStore(constant.Test, {
   state() {
     return {
@@ -25,6 +36,14 @@ export const useTestStore = defineStore(constant.Test, {
   actions: {
     increase() {
       this.count++;
+    },
+    async queryData() {
+      const result = await query()
+      this.user = result
+      this.setHobby(result.name)
+    },
+    setHobby(name: string) {
+      this.hobby = name
     }
   }
 })

@@ -6,7 +6,7 @@ const test = useTestStore()
   console.log('test', test);
 
 const { count, double, getHobby } = storeToRefs(test)
-const { increase } = test
+const { increase, queryData } = test
 
 const container = ref<HTMLDivElement>()
 type List = {
@@ -58,6 +58,7 @@ const handleState = () => {
   <button @click="count++">increase{{ count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handlePatch">$patch{{ count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handleState">$state{{ count }}-{{ double }}--{{ getHobby }}</button>
+  <button @click="queryData">queryData</button>
 </template>
 
 <style scoped lang="scss">
