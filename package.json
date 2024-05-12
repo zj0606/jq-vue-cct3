@@ -13,9 +13,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "axios": "^1.6.2",
     "crypto-js": "^4.0.0",
     "element-plus": "^2.4.3",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.1",
     "pinia": "^2.1.4",
     "v-resize-xjj": "^0.0.5",

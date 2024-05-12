@@ -18,7 +18,17 @@ const bus = mitt()
 export const app = createApp(App)
 
 import { MyUse } from './layout/myuse'
-app.use(createPinia())
+// 使用函数式 store 时需要重置$reset 方法
+// import StoreReset from '@/layout/store/storeReset'
+const pinia = createPinia()
+// pinia.use(StoreReset)
+pinia.use(({ store }) => {
+	const initialState = JSON.parse(JSON.stringify(store.$state));
+	store.$reset = () => {
+		store.$patch(initialState)
+	}
+})
+app.use(pinia)
 app.use(router)
 app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 app.use(userResize)
