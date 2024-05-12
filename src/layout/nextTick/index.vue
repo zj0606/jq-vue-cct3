@@ -52,6 +52,14 @@ const handleReset = () => {
   console.log( test.$reset());
   
 }
+test.$subscribe((arg, state) => {
+  console.log(arg);
+  // 只要数据方法变化就执行
+})
+test.$onAction((args) => {
+  console.log(args, 'args');
+  
+})
 </script>
 <template>
   <div ref="container" style="height: 100px; width: 50px; overflow-y: auto;">
