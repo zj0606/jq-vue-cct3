@@ -3,7 +3,7 @@
 import { defineComponent } from 'vue'
 import { ref, reactive, toRefs, onMounted, nextTick} from 'vue'
 import { useTestStore } from '@/layout/store/index'
-import { storeToRefs } from 'pinia'
+import { storeToRefs, mapState } from 'pinia'
 export default defineComponent({
   name: 'OptionsCompIndex',
   setup(props, ctx) {
@@ -11,7 +11,7 @@ export default defineComponent({
       const test = useTestStore()
       console.log('test', test)
       const { increase, queryData, setEmp } = test
-      const { state, emp, getHobby, double } = storeToRefs(test)
+      const { state, getHobby, double } = storeToRefs(test)
       const container = ref<HTMLDivElement>()
       type List = {
         name: string,
@@ -19,8 +19,20 @@ export default defineComponent({
       }
       const list = reactive<List[]>([])
 
-      return { increase, queryData, setEmp, state, emp, getHobby, double, test, container, list }
+      return { increase, queryData, setEmp, state, getHobby, double, test, container, list }
   },
+  computed: {
+    // 数组形式：使用和定义的状态一致
+    ...mapState(useTestStore, ['emp']),
+    ...mapState(useTestStore, {
+      myEmp: 'emp',
+      triple: store => store.state.count * 3,
+      // 它可以访问 `this`，但它没有标注类型...
+      magicValue(store) {
+        return this.triple + this.myEmp + store.state.hobby
+      },
+    })
+  },  
   created() {
       
   },
@@ -82,13 +94,14 @@ export default defineComponent({
       {{ item.text }}
     </div>
    </div>
+   <button>triple:{{ triple }}, {{ magicValue }}</button>
   <button @click="handleClick">点击下</button>
   <button @click="increase">increase{{ state.count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="state.count++">increase{{ state.count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handlePatch">$patch{{ state.count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="handleState">$state{{ state.count }}-{{ double }}--{{ getHobby }}</button>
   <button @click="queryData">queryData</button>
-  <button @click="setEmp('jjj')">{{ emp }}</button>
+  <button @click="setEmp('jjj')">{{ emp }}--myEmp:{{ myEmp }}</button>
   <button @click="handleReset">reset</button>
 </template>
 
