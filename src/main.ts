@@ -20,7 +20,7 @@ export const app = createApp(App)
 import { MyUse } from './layout/myuse'
 // 使用函数式 store 时需要重置$reset 方法
 // import StoreReset from '@/layout/store/storeReset'
-const pinia = createPinia()
+export const pinia = createPinia()
 // pinia.use(StoreReset)
 pinia.use(({ store }) => {
 	const initialState = JSON.parse(JSON.stringify(store.$state));

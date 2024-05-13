@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive, toRefs, onMounted, nextTick} from 'vue'
+import { ref, reactive, toRefs, onMounted, nextTick, watch } from 'vue'
 import { useTestStore } from '@/layout/store/index'
 import { storeToRefs } from 'pinia'
+import { pinia } from '@/main'
 const test = useTestStore()
 console.log('test', test);
 const { increase, queryData, setEmp } = test
@@ -35,18 +36,23 @@ const handlePatch = () => {
     
   // })
 }
+watch(pinia.state, (state) => {
+  // 每当状态发生变化时，将整个 state 持久化到本地存储。
+  localStorage.setItem('piniaState', JSON.stringify(state))
+},
+{ deep: true })
 const handleState = () => {
   test.$state = {
     emp: '+++',
     state: { //  使用$state 要全量覆盖
-    count: 18,
-    hobby: 'jxx',
-    user: {
-      name: 'xjjj',
-      age: 20
+      count: 18,
+      hobby: 'jxx',
+      user: {
+        name: 'xjjj',
+        age: 20
+      }
     }
   }
-}
 }
 const handleReset = () => {
   console.log( test.$reset());
