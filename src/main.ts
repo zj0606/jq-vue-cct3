@@ -60,7 +60,7 @@ app.config.globalProperties.$bus = bus
 app.config.globalProperties.$enn = enn
 app.config.globalProperties.foo = {
   show() {
-    alert('你好呀')
+    console.log('你好呀')
   }
 }
 declare module "@vue/runtime-core" {
