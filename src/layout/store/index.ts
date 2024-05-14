@@ -65,6 +65,12 @@ export const useTestStore = defineStore(constant.Test, () => {
   const double = computed(() => {
     return state.count * 2
   })
+  const quadruple = computed(() => {
+    return (num: number):number => {
+      
+      return state.count * num
+    }
+  })
   // 可以执行异步 同步操作
 
   const increase = () => {
@@ -82,6 +88,6 @@ export const useTestStore = defineStore(constant.Test, () => {
     emp.value = name
   }
   return {
-    state, emp, getHobby, double, increase, queryData, setEmp
+    state, emp, getHobby, double, increase, queryData, setEmp, quadruple
   }
 })

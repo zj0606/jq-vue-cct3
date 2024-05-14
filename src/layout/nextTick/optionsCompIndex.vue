@@ -11,15 +11,15 @@ export default defineComponent({
       const test = useTestStore()
       console.log('test', test)
       const { increase, queryData, setEmp } = test
-      const { state, getHobby, double } = storeToRefs(test)
+      const { state, getHobby, double, quadruple } = storeToRefs(test)
       const container = ref<HTMLDivElement>()
       type List = {
         name: string,
         text: string
       }
       const list = reactive<List[]>([])
-
-      return { increase, queryData, setEmp, state, getHobby, double, test, container, list }
+      const ipt = ref<number>(0)
+      return { increase, queryData, setEmp, state, getHobby, double, test, container, list, quadruple, ipt }
   },
   computed: {
     // 数组形式：使用和定义的状态一致
@@ -28,7 +28,7 @@ export default defineComponent({
       // myEmp: 'emp',
       triple: store => store.state.count * 3,
       // 它可以访问 `this`，但它没有标注类型...
-      magicValue(store) {
+      magicValue(store): string {
         return this.triple + this.myEmp + store.state.hobby
       },
     }),
@@ -117,6 +117,8 @@ export default defineComponent({
   <button @click="queryData">queryData</button>
   <button @click="setEmp('jjj')">{{ emp }}--myEmp:{{ myEmp }}</button>
   <button @click="handleReset">reset</button>
+  <input type="text" v-model="ipt">
+  <button>{{ quadruple(ipt) }}</button>
 </template>
 
 <style scoped lang="scss">

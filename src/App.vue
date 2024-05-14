@@ -8,7 +8,7 @@
 import GlobalPro from '@/layout/globalProperties/index.vue'
 // 自定义全局插件
 // import Loading from '@/layout/loading/index.vue'
-import Index from '@/layout/nextTick/index.vue'
+import Index from '@/layout/nextTick/optionsCompIndex.vue'
 </script>
 
 <template>
